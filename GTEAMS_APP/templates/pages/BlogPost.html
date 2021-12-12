@@ -1,0 +1,250 @@
+{% load static %} {% load humanize %} {% load extras %}
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTEAMS - Class Web App</title>
+    <!-- link cho navbar -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet" id="fontawesome-css">
+    <!-- link cho thanh truoc -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.2"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static 'fonts/fontawesome-free-5.15.4-web/css/all.css'%}"> -->
+
+    <!-- <link rel="stylesheet" href="{% static 'css/HomePageStyl.css'%}"> -->
+
+    <!-- tác giả nha -->
+    <link rel="stylesheet" href="{% static 'css/HomePag.css'%}">
+    <meta name='author' content="G-Team" />
+    <!-- này search từ khóa tại gg thì dựa vào này -->
+    <meta name='description' content="Tham gia các khóa học online" />
+
+
+</head>
+
+<body>
+
+     <header>
+
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #121212;">
+                <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'imgs/logo.png'%}" alt="Logo page" width="100" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav" style="background-color: #121212;">
+                    <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'intro' %}">Giới thiệu<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'courses' %}">Khóa học</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'practice' %}">Luyện tập</a>
+                        </li>
+    
+                     
+                       <li class="nav-item">
+                            <a class="nav-link nav-item active" href="{% url 'blogs' %}">Bài viết</a>
+                        </li>
+                        
+    
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contact' %}">Liên hệ</a>
+                        </li>
+
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item active"  >
+                            <a class="nav-link" style="color: #FFD700 !important;" href="{% url 'profile' %}">Xin chào {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shopping'%}"><i class="fas fa-shopping-cart" style="color: #FFD700 !important;"></i></a>
+                          </li>
+                        <li class="nav-item active" >
+                            <a class="nav-link" style="color: #FFD700 !important;" href="{% url 'logout' %}">Đăng xuất</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item active" >
+                            <a class="nav-link" style="color: #FFD700 !important;" href="{% url 'log' %}">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" style="color: #FFD700 !important;" href="{% url 'reg' %}">Đăng ký</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-8 blog-main">
+                <div class="blog-post">
+                    <h2 class="blog-post-title text-warning">{{post.title}}</h2>
+                    <p class="blog-post-meta text-danger">{{post.timeStamp}} bởi <a href="#">{{post.author}}</a></p>
+
+                    <div class="fb-like" data-href="http://127.0.0.1:8000/GTEAMS/blog/post.slug" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>
+                    <br>
+                    <br>
+                    <p>{{post.content|safe}}</p>
+                    <hr>
+                </div>
+            </div>
+            <aside class="col-md-4 blog-sidebar">
+                <div class="col p-4 d-flex flex-column position-static" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+                    <h4 class="font-italic">Gteam</h4>
+                    <p class="mb-0">Vì một nền giáo dục thân thiện với bất cứ ai, ở bất cứ nơi nào. Với mong muốn mang đến kiến thức chất lượng, miễn phí cho mọi người, với tâm huyết phá bỏ rào cản kiến thức từ việc giáo dục thu phí. Chúng tôi - Gteam đã lập nên trang
+                        website này để thế giới phẳng hơn. Bất cứ ai có mong muốn khai phá thế giới. Phá bỏ mọi thứ ngăn cản sự phát triển tất yếu bền vững của xã hội đều là Gter (Thành viên của Gteam).
+                    </p>
+
+                    <div class="fb-share-button" data-href="http://127.0.0.1:8000/GTEAMS/blog/post.slug" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2FGTEAMS%2Fblog%2Fpost.slug&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-italic">Liên hệ</h4>
+                    <ol class="list-unstyled">
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ol>
+                </div>
+            </aside>
+            <!-- /.blog-sidebar -->
+        </div>
+        <div class="container">
+            <h2>Bình luận </h2>
+            <div class="my-2">
+                {% if user.is_authenticated %}
+                <form action="{% url 'postComment' post.slug %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="comment" placeholder="Nhập bình luận" style="width:65%;">
+                    </div>
+                    <input type="hidden" name="postSno" value="{{post.sno}}">
+                    <input type="hidden" name="parentSno" value="">
+                    <button type="submit" class="btn btn-danger">Gửi</button>
+                </form>
+                {% else %} Đăng nhập để bình luận {% endif %}
+            </div>
+            {% for comment in comments %}
+            <div class="row my-3">
+                <div class="col-md-1  ">
+                    <img class="img-fluid" class="rounded mx-auto d-block w-100 border border-dark p-2" src="{% static 'imgs/user.png'%}" alt="user">
+                </div>
+                <div class="col-md-11 ">
+                    <b> {{comment.user.username}} </b> <span class="badge badge-secondary ">{{comment.timestamp| naturaltime}}</span>
+                    <div>{{comment.comment}}</div>
+                    <div class="reply mx-0">
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#replyBox{{comment.sno}}" aria-expanded="false" aria-controls="replyBox{{comment.sno}}">
+                            Trả lời
+                        </button>
+                        <br>
+                        <div class="collapse" id="replyBox{{comment.sno}}">
+
+                            <form action="{% url 'postComment' post.slug %}" method="post">
+                                {% csrf_token %}
+                                <div style="width:40%;" class="form-group">
+                                    <label for="comment"><i>Viết câu trả lời</i></label>
+                                    <input type="text" class="form-control" name="comment" placeholder="Nhập bình luận">
+                                    <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                                    <input type="hidden" name="postSno" value="{{post.sno}}">
+                                    <button type="submit" class="btn btn-danger">Gửi</button>
+                            </form>
+                            </div>
+                        </div>
+                        {% else %}
+                        <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#replyBox{{comment.sno}}" aria-expanded="false" aria-controls="replyBox{{comment.sno}}">
+                            <a href="{% url 'log' %}">Đăng nhập để trả lời </a>
+                        </button> {% endif %}
+                        <br>
+                        <div class="replies my-2 ">
+                            {% for reply in replyDict|get_val:comment.sno %}
+                            <div class="row my-2">
+                                <div class="col-md-1 ">
+                                    <img class="img-fluid" class="rounded mx-auto d-block w-75 my-2 border border-dark p-2" src="{% static 'imgs/user.png'%}" alt="user">
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="col-md-11 ">
+                                        <b> {{reply.user.username}} </b> <span class="badge badge-secondary ">{{reply.timestamp| naturaltime}}</span>
+                                        <div>{{reply.comment}}</div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="container ">
+
+            <div class="text-center "><i class="fas fa-ellipsis-h "></i></div>
+
+            <div class="row text-center ">
+                <div class="col-md-4 box ">
+                    <span class="copyright quick-links ">GTEAMS &copy; Our Website <script>document.write(new Date().getFullYear())</script>
+              </span>
+                </div>
+                <div class="col-md-4 box ">
+                    <ul class="list-inline social-buttons ">
+                        <li class="list-inline-item ">
+                            <a href="# ">
+                                <i class="fab fa-twitter "></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item ">
+                            <a href="# ">
+                                <i class="fab fa-facebook-f "></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item ">
+                            <a href="# ">
+                                <i class="fab fa-linkedin-in "></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 box ">
+                    <ul class="list-inline quick-links ">
+                        <li class="list-inline-item ">
+                            <a href="# ">Privacy Policy</a>
+                        </li>
+                        <li class="list-inline-item ">
+                            <a href="# ">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js " integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js " integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV " crossorigin="anonymous "></script>
+</body>
+
+</html>
